@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ApexPlanet Task 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #1a1207;
+      --paper:  #faf6ef;
+      --accent: #c8622a;
+      --warm:   #e8d9c0;
+      --muted:  #7a6a55;
+      --card:   #fff9f2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: .5;
+    }
+    header {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 6rem 2rem;
+      position: relative;
+      background: var(--ink);
+      color: var(--paper);
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #c8622a55, transparent 70%);
+      top: -150px; right: -150px;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: .7; }
+      50%       { transform: scale(1.1); opacity: 1; }
+    }
+
+    .hero-inner { text-align: center; position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .35rem .9rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      line-height: 1.05;
+      animation: fadeUp .8s .15s ease both;
+    }
+
+    h1 em { color: var(--accent); font-style: italic; }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: #b8a898;
+      max-width: 480px;
+      margin-inline: auto;
+      animation: fadeUp .8s .3s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      animation: fadeUp .8s .45s ease both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .85rem 2.2rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px #c8622a55; }
+    .btn:active { transform: translateY(0); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: #6a5a4a; font-size: .75rem; letter-spacing: .1em;
+    }
+
+    .scroll-hint span {
+      display: block; width: 1px; height: 50px;
+      background: linear-gradient(to bottom, #c8622a, transparent);
+      animation: drip 1.6s ease-in-out infinite;
+    }
+
+    @keyframes drip {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    p { color: var(--muted); max-width: 60ch; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -12px -12px 12px 12px;
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+      z-index: 0;
+    }
+
+    .about-img-wrap img {
+      width: 100%;
+      border-radius: 4px;
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: sepia(.2) contrast(1.05);
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--warm);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px #c8622a18; }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: .6rem;
+    }
+
+    .card p { font-size: .9rem; }
+    .links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1.3rem;
+      border: 1.5px solid var(--warm);
+      border-radius: 100px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: background .2s, border-color .2s;
+    }
+
+    .link-pill:hover { background: var(--warm); border-color: var(--accent); }
+
+    .demo-box {
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 8px;
+      padding: 3rem;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .demo-box p { color: #b8a898; margin-bottom: 1.5rem; max-width: 100%; }
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: .85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--warm);
+    }
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hero-inner">
+      <div class="hero-tag">ApexPlanet Internship · Task 1</div>
+      <h1>Hello,<br>I'm <em>Learning</em><br>Web Dev.</h1>
+      <p class="hero-sub">A beginner's journey through HTML, CSS, and JavaScript — one concept at a time.</p>
+      <div class="hero-cta">
+        <a href="#about" class="btn">Explore My Work ↓</a>
+      </div>
+    </div>
+    <div class="scroll-hint">SCROLL <span></span></div>
+  </header>
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <p class="section-label">About Me</p>
+        <h2>Turning curiosity into code.</h2>
+        <p>
+          I'm a web development intern at ApexPlanet, building my foundations
+          in HTML, CSS, and JavaScript. This page itself is my Task 1 submission —
+          a real-world demonstration of every concept I've learned so far.
+        </p>
+        <p style="margin-top:1rem;">
+          From structuring content with semantic HTML, to making it beautiful
+          with CSS, to adding interactivity with JavaScript — it all comes
+          together right here.
+        </p>
+        <div class="links-row">
+          <a class="link-pill" href="https://github.com" target="_blank">⭐ GitHub Repo</a>
+          <a class="link-pill" href="https://linkedin.com" target="_blank">▶ LinkedIn Video</a>
+          <a class="link-pill" href="https://apexplanet.in" target="_blank">🚀 ApexPlanet</a>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&q=80"
+          alt="Code on a screen — representing web development"
+        />
+      </div>
+    </div>
+  </section>
+  <section id="skills" style="background: var(--ink); max-width:100%; padding: 6rem 2rem;">
+    <div style="max-width:1000px; margin:0 auto;">
+      <p class="section-label" style="color:var(--accent);">What I Learned</p>
+      <h2 style="color:var(--paper);">Three pillars of the web.</h2>
+      <div class="skills-grid">
+        <div class="card" style="background:#26200f; border-color:#3a3020;">
+          <div class="card-icon">🏗️</div>
+          <h3 style="color:var(--paper);">HTML</h3>
+          <p style="color:#9a8a72;">
+            The skeleton of every webpage. Headings, paragraphs, images,
+            links, lists — HTML gives content its structure and meaning.
+          </p>
+        </div>
+        <div class="card" style="background:#26200f; border-color:#3a3020;">
+          <div class="card-icon">🎨</div>
+          <h3 style="color:var(--paper);">CSS</h3>
+          <p style="color:#9a8a72;">
+            The skin and style. Colors, fonts, spacing, layouts, animations —
+            CSS transforms plain HTML into visually polished experiences.
+          </p>
+        </div>
+        <div class="card" style="background:#26200f; border-color:#3a3020;">
+          <div class="card-icon">⚡</div>
+          <h3 style="color:var(--paper);">JavaScript</h3>
+          <p style="color:#9a8a72;">
+            The brains of the page. Event listeners, DOM manipulation, logic
+            — JS adds the interactivity that makes the web feel alive.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="demo">
+    <p class="section-label">JavaScript Demo</p>
+    <h2>Click the button.<br>See JS in action.</h2>
+    <p>
+      This is the required Task 1 JavaScript interaction — a button that triggers
+      an alert. Simple, but it proves the JS engine is running!
+    </p>
+    <div class="demo-box">
+      <p>Press the button below to trigger a JavaScript <code>alert()</code> message.</p>
+      <button class="btn" onclick="showAlert()">🎉 Click Me!</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built for the <strong>ApexPlanet Web Development Internship</strong> </p>
+    <p style="margin-top:.5rem;">HTML · CSS · JavaScript</p>
+  </footer>
+
+  <script>
+    function showAlert() {
+      alert("🎉 Hello from JavaScript!\n\nThis alert was triggered by a button click — Task 1 JavaScript objective complete!");
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = 1;
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(sec => {
+      sec.style.opacity = 0;
+      sec.style.transform = 'translateY(30px)';
+      sec.style.transition = 'opacity .7s ease, transform .7s ease';
+      observer.observe(sec);
+    });
+  </script>
+
+</body>
+</html>
